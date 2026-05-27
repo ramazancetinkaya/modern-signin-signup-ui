@@ -1,0 +1,547 @@
+/* ==================================================================
+  1. DESIGN TOKENS & DYNAMIC CSS VARIABLES
+  ==================================================================
+*/
+:root {
+  /* Light Mode Color Tokens */
+  --bg-primary: #f4f4f5;             /* Matte ultra-light zinc gray */
+  --text-primary: #18181b;           /* Deep charcoal/zinc for readability */
+  --text-secondary: #52525b;         /* Muted mid-tone gray for subtitles */
+  --border-color: #e4e4e7;           /* Sharp, high-contrast borders */
+  --input-bg: #ffffff;               /* Clean white inputs */
+  --button-primary: #18181b;         /* True matte black primary elements */
+  --button-primary-hover: #27272a;   /* Slightly elevated zinc-hover */
+  --button-primary-text: #ffffff;
+  --button-secondary: #ffffff;       /* Pure white secondary buttons */
+  --button-secondary-hover: #fafafa;
+  --button-secondary-text: #18181b;
+  --accent-color: #2563eb;           /* Professional digital blue for focus rings */
+  --error-color: #dc2626;            /* Matte red for clear errors */
+  --error-bg: #fef2f2;
+  
+  /* Shared Structural Tokens */
+  --font-heading: 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --transition-speed: 0.3s;
+}
+
+[data-theme="dark"] {
+  /* Dark Mode Color Tokens */
+  --bg-primary: #09090b;             /* Pure deep matte black-zinc */
+  --text-primary: #fafafa;           /* Soft off-white to eliminate glare */
+  --text-secondary: #a1a1aa;         /* Cool silver-gray subtitles */
+  --border-color: #27272a;           /* Dark matte border separator */
+  --input-bg: #18181b;               /* Deep charcoal input containers */
+  --button-primary: #fafafa;         /* Off-white primary action button */
+  --button-primary-hover: #f4f4f5;
+  --button-primary-text: #09090b;
+  --button-secondary: #18181b;       /* Dark charcoal secondary elements */
+  --button-secondary-hover: #27272a;
+  --button-secondary-text: #fafafa;
+  --accent-color: #3b82f6;           /* Vivid high-contrast dark blue */
+  --error-color: #f87171;            /* Pastel dark red */
+  --error-bg: rgba(127, 29, 29, 0.15);
+}
+
+/* ==================================================================
+  2. MODERN CSS RESET & SCREEN CENTER ALIGNMENT
+  ==================================================================
+  Forces absolute, centered geometry across both axes, avoiding 
+  traditional card borders and framing.
+*/
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+  padding: 24px;
+  position: relative;
+  transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+}
+
+/* ==================================================================
+  3. FLOATING BRANDING (Top Left Logo)
+  ==================================================================
+*/
+.brand-header {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  user-select: none;
+  z-index: 10;
+}
+
+.brand-logo {
+  background-color: var(--button-primary);
+  color: var(--button-primary-text);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.2rem;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+}
+
+.brand-name {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+}
+
+/* ==================================================================
+  4. WIZARD ORCHESTRATOR & STEP TRANSITIONS
+  ==================================================================
+  Transitions steps smoothly by sliding them slightly up as they 
+  fade in, preventing content jumping.
+*/
+.flow-container {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.form-step {
+  display: none;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.form-step.active {
+  display: flex;
+  flex-direction: column;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Step Typography */
+.step-header {
+  margin-bottom: 28px;
+}
+
+.step-title {
+  font-family: var(--font-heading);
+  font-size: 1.85rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-bottom: 8px;
+  line-height: 1.25;
+}
+
+.step-subtitle {
+  font-size: 0.925rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.step-subtitle .user-email-display {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.btn-edit-email {
+  background: none;
+  border: none;
+  color: var(--accent-color);
+  cursor: pointer;
+  font-size: 0.85rem;
+  margin-left: 6px;
+  transition: opacity 0.2s;
+}
+
+.btn-edit-email:hover {
+  opacity: 0.8;
+}
+
+/* ==================================================================
+  5. FORM INPUTS & WRAPPERS
+  ==================================================================
+*/
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.form-label {
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.form-input {
+  width: 100%;
+  padding: 13px 16px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+}
+
+/* Space inside inputs only reserved when there is a password toggle button */
+.input-wrapper.has-toggle .form-input {
+  padding-right: 46px;
+}
+
+.form-input:focus {
+  border-color: var(--text-primary);
+  box-shadow: 0 0 0 2px var(--border-color);
+}
+
+/* Exclusive toggle button styling (No other icons allowed inside) */
+.password-toggle {
+  position: absolute;
+  right: 14px;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  transition: color 0.2s;
+}
+
+.password-toggle:hover {
+  color: var(--text-primary);
+}
+
+/* ==================================================================
+  6. DYNAMIC JAVASCRIPT VALIDATION CONTAINER
+  ==================================================================
+  Starts at height 0 with no opacity, and transitions dynamically 
+  to open up vertical space upon receiving validation errors.
+*/
+.error-message {
+  font-size: 0.8rem;
+  color: var(--error-color);
+  margin-top: 0px;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s, margin-top 0.2s;
+  line-height: 1.4;
+}
+
+.error-message.show {
+  margin-top: 6px;
+  max-height: 48px; /* Safe dynamic range for multi-line helper errors */
+  opacity: 1;
+}
+
+/* ==================================================================
+  7. BUTTONS & SSO ACTION ELEMENTS
+  ==================================================================
+*/
+.btn {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 8px;
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: background-color var(--transition-speed) ease, transform 0.1s ease;
+  border: none;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background-color: var(--button-primary);
+  color: var(--button-primary-text);
+}
+
+.btn-primary:hover {
+  background-color: var(--button-primary-hover);
+}
+
+.btn-secondary {
+  background-color: var(--button-secondary);
+  color: var(--button-secondary-text);
+  border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+  background-color: var(--button-secondary-hover);
+}
+
+/* Federated SSO triggers */
+.sso-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+/* Matte Divider Lines */
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.divider span {
+  padding: 0 14px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* ==================================================================
+  8. SAAS WORKSPACE CUSTOM CONTROL SELECTION
+  ==================================================================
+  Cleans out standard cross-browser operating system select styling 
+  and applies a modern flat design.
+*/
+.saas-select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.saas-select {
+  width: 100%;
+  padding: 13px 16px;
+  padding-right: 40px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+}
+
+.saas-select:focus {
+  border-color: var(--text-primary);
+  box-shadow: 0 0 0 2px var(--border-color);
+}
+
+/* FontAwesome Unicode selector arrow replacement */
+.saas-select-wrapper::after {
+  content: '\f078';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  pointer-events: none;
+  font-size: 0.85rem;
+}
+
+.skip-step-btn {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* ==================================================================
+  9. SYSTEM LINKS & LEGAL NOTICES
+  ==================================================================
+*/
+.form-options {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+
+.link-helper {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.link-helper:hover {
+  color: var(--text-primary);
+}
+
+.form-footer-action {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.form-footer-action a {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.form-footer-action a:hover {
+  text-decoration: underline;
+}
+
+.agreement-notice {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.agreement-notice a {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.agreement-notice a:hover {
+  text-decoration: underline;
+}
+
+/* Success State (Forgot Password Step 2) */
+.success-icon-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+  color: var(--text-primary);
+  font-size: 3.5rem;
+}
+
+/* ==================================================================
+  10. FOOTER & FIXED INTERACTIVE TOGGLE BUTTON
+  ==================================================================
+*/
+.system-footer {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 24px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.system-footer a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.system-footer a:hover {
+  color: var(--text-primary);
+}
+
+/* Micro-interaction theme selector */
+.theme-toggle-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--button-primary);
+  color: var(--button-primary-text);
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color var(--transition-speed), color var(--transition-speed);
+  z-index: 100;
+}
+
+.theme-toggle-btn:hover {
+  transform: scale(1.1);
+}
+
+.theme-toggle-btn i {
+  font-size: 1.15rem;
+  transition: transform 0.5s ease;
+}
+
+.theme-toggle-btn:active i {
+  transform: rotate(360deg);
+}
+
+/* ==================================================================
+  11. RESPONSIVE GEOMETRY (Adaptive Layout Adjustments)
+  ==================================================================
+*/
+@media (max-width: 640px) {
+  body {
+    align-items: flex-start;
+    padding-top: 120px;
+    padding-bottom: 100px;
+  }
+
+  .brand-header {
+    top: 24px;
+    left: 24px;
+  }
+
+  .theme-toggle-btn {
+    bottom: 24px;
+    right: 24px;
+  }
+
+  .system-footer {
+    bottom: 24px;
+    width: 100%;
+    justify-content: center;
+  }
+}
