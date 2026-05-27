@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modern Auth UI</title>
+  
+  <!-- FontAwesome 6.4.0 CDN for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts - Inter for Body & Plus Jakarta Sans for Headings -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+  <!-- CSS file -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="light">
+
+  <!-- Floating Brand Header -->
+  <header class="brand-header">
+    <div class="brand-logo">B</div>
+    <span class="brand-name">Brand</span>
+  </header>
+
+  <!-- Flow Wizard Orchestrator Container -->
+  <main class="flow-container">
+
+    <!-- ==========================================
+         SIGN IN - STEP 1: Email Identification Entry
+         ========================================== -->
+    <section id="signin-step-1" class="form-step active">
+      <div class="step-header">
+        <h1 class="step-title">Sign in to Brand</h1>
+        <p class="step-subtitle">Welcome back! Please enter your details.</p>
+      </div>
+
+      <!-- Federated SSO Triggers -->
+      <div class="sso-group">
+        <button type="button" class="btn btn-secondary">
+          <i class="fa-brands fa-google"></i> Continue with Google
+        </button>
+        <button type="button" class="btn btn-secondary">
+          <i class="fa-brands fa-apple"></i> Continue with Apple
+        </button>
+      </div>
+
+      <div class="divider">
+        <span>or continue with email</span>
+      </div>
+
+      <!-- Classic Authentication Flow Step -->
+      <form id="signin-email-form" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="signin-email">Email Address</label>
+          <div class="input-wrapper">
+            <input type="email" id="signin-email" class="form-input" placeholder="you@example.com" required autocomplete="email">
+          </div>
+          <div id="signin-email-error" class="error-message"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Continue</button>
+      </form>
+
+      <p class="form-footer-action">
+        Don't have an account? <a href="#" onclick="switchFlow('signup')">Sign up</a>
+      </p>
+    </section>
+
+    <!-- ==========================================
+         SIGN IN - STEP 2: Secure Password Verification
+         ========================================== -->
+    <section id="signin-step-2" class="form-step">
+      <div class="step-header">
+        <h1 class="step-title">Enter your password</h1>
+        <p class="step-subtitle">
+          Signing in as <span id="display-signin-email" class="user-email-display">user@example.com</span>
+          <button type="button" class="btn-edit-email" onclick="goToStep('signin-step-1')" aria-label="Edit Email"><i class="fa-solid fa-pencil"></i></button>
+        </p>
+      </div>
+
+      <form id="signin-password-form" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="signin-password">Password</label>
+          <div class="input-wrapper has-toggle">
+            <input type="password" id="signin-password" class="form-input" placeholder="••••••••" required>
+            <button type="button" class="password-toggle" onclick="togglePasswordVisibility('signin-password', this)" aria-label="Toggle password visibility">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+          <div id="signin-password-error" class="error-message"></div>
+        </div>
+
+        <div class="form-options">
+          <a href="#" class="link-helper" onclick="switchFlow('forgot')">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Sign In</button>
+      </form>
+    </section>
+
+    <!-- ==========================================
+         SIGN UP - STEP 1: Federated SSO & Email Registration Hookup
+         ========================================== -->
+    <section id="signup-step-1" class="form-step">
+      <div class="step-header">
+        <h1 class="step-title">Create your account</h1>
+        <p class="step-subtitle">Start your journey with us today.</p>
+      </div>
+
+      <!-- Federated Registration Handlers -->
+      <div class="sso-group">
+        <button type="button" class="btn btn-secondary">
+          <i class="fa-brands fa-google"></i> Continue with Google
+        </button>
+        <button type="button" class="btn btn-secondary">
+          <i class="fa-brands fa-apple"></i> Continue with Apple
+        </button>
+      </div>
+
+      <div class="divider">
+        <span>or continue with email</span>
+      </div>
+
+      <form id="signup-email-form" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="signup-email">Email Address</label>
+          <div class="input-wrapper">
+            <input type="email" id="signup-email" class="form-input" placeholder="you@example.com" required autocomplete="email">
+          </div>
+          <div id="signup-email-error" class="error-message"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Continue</button>
+
+        <!-- Terms agreement disclaimer substituting manual checkboxes -->
+        <p class="agreement-notice">
+          By continuing, you agree to Brand's <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+        </p>
+      </form>
+
+      <p class="form-footer-action">
+        Already have an account? <a href="#" onclick="switchFlow('signin')">Sign in</a>
+      </p>
+    </section>
+
+    <!-- ==========================================
+         SIGN UP - STEP 2: Profile Metrics & Password Setup
+         ========================================== -->
+    <section id="signup-step-2" class="form-step">
+      <div class="step-header">
+        <h1 class="step-title">Set up your account</h1>
+        <p class="step-subtitle">Tell us about yourself and protect your account.</p>
+      </div>
+
+      <form id="signup-details-form" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="signup-name">Full Name</label>
+          <div class="input-wrapper">
+            <input type="text" id="signup-name" class="form-input" placeholder="John Doe" required>
+          </div>
+          <div id="signup-name-error" class="error-message"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="signup-password">Password</label>
+          <div class="input-wrapper has-toggle">
+            <input type="password" id="signup-password" class="form-input" placeholder="Min. 8 characters" required>
+            <button type="button" class="password-toggle" onclick="togglePasswordVisibility('signup-password', this)" aria-label="Toggle password visibility">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+          <div id="signup-password-error" class="error-message"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Continue</button>
+      </form>
+    </section>
+
+    <!-- ==========================================
+         SIGN UP - STEP 3: Workspace Selection & Intended Actions
+         ========================================== -->
+    <section id="signup-step-3" class="form-step">
+      <div class="step-header">
+        <h1 class="step-title">Configure workspace</h1>
+        <p class="step-subtitle">Choose how you plan to use Brand. You can skip this anytime.</p>
+      </div>
+
+      <form id="signup-saas-form" novalidate>
+        <!-- Application Target Selection -->
+        <div class="form-group">
+          <label class="form-label" for="saas-usage">How will you use Brand?</label>
+          <div class="saas-select-wrapper">
+            <select class="saas-select" id="saas-usage" required>
+              <option value="" disabled selected>Select option</option>
+              <option value="personal">Personal Use (Solo projects / hobby)</option>
+              <option value="freelance">Freelance / Consultant</option>
+              <option value="team">Team / Business Org</option>
+            </select>
+          </div>
+          <div id="saas-usage-error" class="error-message"></div>
+        </div>
+
+        <!-- Dynamic Space Designation -->
+        <div class="form-group">
+          <label class="form-label" for="saas-name">Workspace Name</label>
+          <div class="input-wrapper">
+            <input type="text" id="saas-name" class="form-input" placeholder="e.g., My Workspace" required>
+          </div>
+          <div id="saas-name-error" class="error-message"></div>
+        </div>
+
+        <!-- Conditional Team Role Designation -->
+        <div class="form-group" id="saas-role-group" style="display: none; opacity: 0; transition: opacity var(--transition-speed) ease;">
+          <label class="form-label" for="saas-role">What is your role?</label>
+          <div class="saas-select-wrapper">
+            <select class="saas-select" id="saas-role">
+              <option value="" disabled selected>Select your role</option>
+              <option value="developer">Developer</option>
+              <option value="designer">Designer</option>
+              <option value="manager">Product Manager</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div id="saas-role-error" class="error-message"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Complete Setup</button>
+
+        <div class="skip-step-btn">
+          <a href="#" class="link-helper" onclick="completeRegistration(true)">Skip this step</a>
+        </div>
+      </form>
+    </section>
+
+    <!-- ==========================================
+         FORGOT PASSWORD - STEP 1: Request Transmission Screen
+         ========================================== -->
+    <section id="forgot-step-1" class="form-step">
+      <div class="step-header">
+        <h1 class="step-title">Reset password</h1>
+        <p class="step-subtitle">Enter your email and we'll send you a recovery link.</p>
+      </div>
+
+      <form id="forgot-email-form" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="forgot-email">Email Address</label>
+          <div class="input-wrapper">
+            <input type="email" id="forgot-email" class="form-input" placeholder="you@example.com" required autocomplete="email">
+          </div>
+          <div id="forgot-email-error" class="error-message"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Send recovery link</button>
+      </form>
+
+      <p class="form-footer-action">
+        Remember your password? <a href="#" onclick="switchFlow('signin')">Sign in</a>
+      </p>
+    </section>
+
+    <!-- ==========================================
+         FORGOT PASSWORD - STEP 2: Operation Success Notification
+         ========================================== -->
+    <section id="forgot-step-2" class="form-step">
+      <div class="success-icon-wrapper">
+        <i class="fa-regular fa-circle-check"></i>
+      </div>
+      <div class="step-header" style="text-align: center; margin-bottom: 24px;">
+        <h1 class="step-title">Check your email</h1>
+        <p class="step-subtitle">We've sent a recovery link to <span id="display-forgot-email" class="user-email-display">user@example.com</span></p>
+      </div>
+
+      <button type="button" class="btn btn-primary" onclick="switchFlow('signin')">Back to Sign In</button>
+    </section>
+
+  </main>
+
+  <!-- Static System Legal Footer Links -->
+  <footer class="system-footer">
+    <a href="#">Terms of Service</a>
+    <a href="#">Privacy Policy</a>
+  </footer>
+
+  <!-- Theme Manipulation Interface Switcher Trigger -->
+  <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle theme">
+    <i class="fa-solid fa-moon"></i>
+  </button>
+
+
+  <!-- JavaScript file -->
+  <script src="script.js" defer></script>
+</body>
+</html>
